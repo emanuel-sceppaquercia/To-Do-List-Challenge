@@ -24,7 +24,7 @@ public class FolderServiceImpl implements IFolderService {
     private final ModelMapper mapper;
 
     @Override
-    public FolderDto CreateFolder(String name) {
+    public FolderDto createFolder(String name) {
         Folder folder = folderRepository.save(new Folder(name));
         return folderToDto(folder);
     }
@@ -37,7 +37,8 @@ public class FolderServiceImpl implements IFolderService {
 
     @Override
     public List<TaskDto> viewAllTasks(Long id) {
-        return taskRepository.findAll()
+        return folderRepository.getById(id)
+                .getTasks()
                 .stream()
                 .map(Task -> mapper.map(Task, TaskDto.class))
                 .collect(Collectors.toList());

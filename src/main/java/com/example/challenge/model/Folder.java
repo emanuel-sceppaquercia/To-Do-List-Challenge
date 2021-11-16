@@ -22,7 +22,7 @@ public class Folder {
     @NotEmpty(message = "Field name should not be null or empty")
     private String name;
 
-    @OneToMany(cascade = CascadeType.REMOVE)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "folder")
     private List<Task> tasks;
 
     public Folder(String name){

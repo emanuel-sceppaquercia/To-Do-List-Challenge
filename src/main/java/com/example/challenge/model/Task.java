@@ -28,12 +28,13 @@ public class Task {
     private Boolean finished = false;
 
     @ManyToOne
-    @JoinColumn(name = "folder_id")
-    private Folder folderId;
+    @JoinColumn(name = "folder_id", nullable = false, updatable = false)
+    private Folder folder;
 
-    public Task(String name){
+    public Task(String name, Folder folder){
         this.name = name;
         this.createDate = new Date();
+        this.folder = folder;
     }
 
 }

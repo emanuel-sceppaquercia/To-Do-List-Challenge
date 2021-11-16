@@ -1,7 +1,10 @@
 package com.example.challenge.service.Impl;
 
+import com.example.challenge.model.Folder;
 import com.example.challenge.model.Task;
 import com.example.challenge.model.dto.TaskDto;
+import com.example.challenge.model.dto.TaskRequestDto;
+import com.example.challenge.repository.FolderRepository;
 import com.example.challenge.repository.TaskRepository;
 import com.example.challenge.service.ITaskService;
 import lombok.RequiredArgsConstructor;
@@ -14,10 +17,12 @@ import static com.example.challenge.model.dto.TaskDto.taskToDto;
 public class TaskService implements ITaskService {
 
     private final TaskRepository taskRepository;
+    private final FolderRepository folderRepository;
 
     @Override
-    public TaskDto createTask(String name) {
-        Task task = taskRepository.save(new Task(name));
+    public TaskDto createTask(TaskRequestDto request) {
+        Folder folder = folderRepository.getById(request.getFolderId());
+        Task task = taskRepository.save(new Task(request.getName(),folder));
         return taskToDto(task);
     }
 
@@ -25,6 +30,7 @@ public class TaskService implements ITaskService {
     public TaskDto editTask(Long id, String name) {
         Task task = taskRepository.getById(id);
         task.setName(name);
+        taskRepository.save(task);
         return taskToDto(task);
     }
 
@@ -38,6 +44,7 @@ public class TaskService implements ITaskService {
     public boolean checkTask(Long id) {
         Task task = taskRepository.getById(id);
         task.setFinished(!task.getFinished());
+        taskRepository.save(task);
         return task.getFinished();
     }
 }

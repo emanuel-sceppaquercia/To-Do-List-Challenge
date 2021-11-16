@@ -8,7 +8,6 @@ import com.example.challenge.model.dto.TaskDto;
 import com.example.challenge.repository.FolderRepository;
 import com.example.challenge.service.IFolderService;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,7 +20,6 @@ import static com.example.challenge.model.dto.FolderDto.folderToDto;
 public class FolderServiceImpl implements IFolderService {
 
     private final FolderRepository folderRepository;
-    private final ModelMapper mapper;
 
     @Override
     public FolderDto createFolder(String name) {
@@ -46,7 +44,7 @@ public class FolderServiceImpl implements IFolderService {
             return folderRepository.getById(id)
                     .getTasks()
                     .stream()
-                    .map(Task -> mapper.map(Task, TaskDto.class))
+                    .map(TaskDto::taskToDto)
                     .collect(Collectors.toList());
         else
             throw new NotFoundException("Folder doesn't exist");

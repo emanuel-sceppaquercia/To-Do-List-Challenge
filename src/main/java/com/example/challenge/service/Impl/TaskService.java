@@ -1,5 +1,7 @@
 package com.example.challenge.service.Impl;
 
+import com.example.challenge.exception.ConflictException;
+import com.example.challenge.exception.NotFoundException;
 import com.example.challenge.model.Folder;
 import com.example.challenge.model.Task;
 import com.example.challenge.model.dto.TaskDto;
@@ -21,30 +23,40 @@ public class TaskService implements ITaskService {
 
     @Override
     public TaskDto createTask(TaskRequestDto request) {
-        Folder folder = folderRepository.getById(request.getFolderId());
+        if(taskRepository.existsByName(request.getName()))
+            throw new ConflictException("Name already exist");
+
+        Folder folder = folderRepository.findById(request.getFolderId())
+                .orElseThrow( () -> new NotFoundException("Folder doesn't exist"));
         Task task = taskRepository.save(new Task(request.getName(),folder));
         return taskToDto(task);
     }
 
     @Override
     public TaskDto editTask(Long id, String name) {
-        Task task = taskRepository.getById(id);
+        if(taskRepository.existsByName(name))
+            throw new ConflictException("Name already exist");
+
+        Task task = taskRepository.findById(id)
+                .orElseThrow( () -> new NotFoundException("Invalid ID"));
         task.setName(name);
         taskRepository.save(task);
         return taskToDto(task);
     }
 
     @Override
-    public boolean deleteTask(Long id) {
-        taskRepository.deleteById(id);
-        return true;
+    public void deleteTask(Long id) {
+        if (taskRepository.existsById(id))
+            taskRepository.deleteById(id);
+        else
+            throw new NotFoundException("Invalid ID");
     }
 
     @Override
-    public boolean checkTask(Long id) {
-        Task task = taskRepository.getById(id);
+    public void checkTask(Long id) {
+        Task task = taskRepository.findById(id)
+                .orElseThrow( () -> new NotFoundException("Invalid ID"));
         task.setFinished(!task.getFinished());
         taskRepository.save(task);
-        return task.getFinished();
     }
 }

@@ -23,13 +23,13 @@ public class TaskService implements ITaskService {
 
     @Override
     public TaskDto createTask(TaskRequestDto request) {
-        if(taskRepository.existsByName(request.getName()))
-            throw new ConflictException("Name already exist");
-
         Folder folder = folderRepository.findById(request.getFolderId())
                 .orElseThrow( () -> new NotFoundException("Folder doesn't exist"));
-        Task task = taskRepository.save(new Task(request.getName(),folder));
-        return taskToDto(task);
+
+        if(folder.getTasks().stream().anyMatch( p -> p.getName().equals(request.getName())))
+            throw new ConflictException("Name already exist");
+
+        return taskToDto(taskRepository.save(new Task(request.getName(),folder)));
     }
 
     @Override

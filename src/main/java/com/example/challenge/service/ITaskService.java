@@ -7,7 +7,7 @@ public interface ITaskService {
 
     TaskDto createTask(TaskRequestDto request);
     TaskDto editTask(Long id, String name);
-    boolean deleteTask(Long id);
-    boolean checkTask(Long id);
+    void deleteTask(Long id);
+    void checkTask(Long id);
 
 }

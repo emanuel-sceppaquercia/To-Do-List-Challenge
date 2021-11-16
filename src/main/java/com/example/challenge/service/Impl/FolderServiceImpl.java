@@ -1,10 +1,11 @@
 package com.example.challenge.service.Impl;
 
+import com.example.challenge.exception.ConflictException;
+import com.example.challenge.exception.NotFoundException;
 import com.example.challenge.model.Folder;
 import com.example.challenge.model.dto.FolderDto;
 import com.example.challenge.model.dto.TaskDto;
 import com.example.challenge.repository.FolderRepository;
-import com.example.challenge.repository.TaskRepository;
 import com.example.challenge.service.IFolderService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -20,28 +21,35 @@ import static com.example.challenge.model.dto.FolderDto.folderToDto;
 public class FolderServiceImpl implements IFolderService {
 
     private final FolderRepository folderRepository;
-    private final TaskRepository taskRepository;
     private final ModelMapper mapper;
 
     @Override
     public FolderDto createFolder(String name) {
+        if(folderRepository.existsByName(name))
+            throw new ConflictException("Name already exist");
+
         Folder folder = folderRepository.save(new Folder(name));
         return folderToDto(folder);
     }
 
     @Override
-    public Boolean deleteFolder(Long id) {
-        folderRepository.deleteById(id);
-        return true;
+    public void deleteFolder(Long id) {
+        if (folderRepository.existsById(id))
+            folderRepository.deleteById(id);
+        else
+            throw new NotFoundException("Invalid ID");
     }
 
     @Override
     public List<TaskDto> viewAllTasks(Long id) {
-        return folderRepository.getById(id)
-                .getTasks()
-                .stream()
-                .map(Task -> mapper.map(Task, TaskDto.class))
-                .collect(Collectors.toList());
+        if(folderRepository.existsById(id))
+            return folderRepository.getById(id)
+                    .getTasks()
+                    .stream()
+                    .map(Task -> mapper.map(Task, TaskDto.class))
+                    .collect(Collectors.toList());
+        else
+            throw new NotFoundException("Folder doesn't exist");
     }
 
 }

@@ -25,4 +25,8 @@ public class Folder {
     @OneToMany(cascade = CascadeType.REMOVE)
     private List<Task> tasks;
 
+    public Folder(String name){
+        this.name = name;
+    }
+
 }

@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import java.sql.Date;
+import java.util.Date;
 
 @Data
 @Entity
@@ -25,10 +25,15 @@ public class Task {
     @Column(name = "create_date")
     private Date createDate;
 
-    private boolean finished = false;
+    private Boolean finished = false;
 
     @ManyToOne
     @JoinColumn(name = "folder_id")
     private Folder folderId;
+
+    public Task(String name){
+        this.name = name;
+        this.createDate = new Date();
+    }
 
 }

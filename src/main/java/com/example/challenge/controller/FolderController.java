@@ -33,5 +33,10 @@ public class FolderController {
         return ResponseEntity.ok(folderService.viewAllTasks(id));
     }
 
+    @GetMapping
+    public ResponseEntity<?> viewAllFolders(){
+        return ResponseEntity.ok(folderService.getAllFolders());
+    }
+
 
 }

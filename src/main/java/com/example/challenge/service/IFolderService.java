@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface IFolderService {
 
-    FolderDto CreateFolder(String name);
-    Boolean deleteFolder(Long id);
+    FolderDto createFolder(String name);
+    void deleteFolder(Long id);
     List<TaskDto> viewAllTasks(Long id);
     List<FolderDto> getAllFolders();
 

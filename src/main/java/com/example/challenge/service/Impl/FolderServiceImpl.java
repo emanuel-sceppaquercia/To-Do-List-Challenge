@@ -50,4 +50,13 @@ public class FolderServiceImpl implements IFolderService {
             throw new NotFoundException("Folder doesn't exist");
     }
 
+    @Override
+    public List<FolderDto> getAllFolders() {
+        return folderRepository.findAll()
+                .stream()
+                .map(FolderDto::folderToDto)
+                .collect(Collectors.toList());
+    }
+
+
 }

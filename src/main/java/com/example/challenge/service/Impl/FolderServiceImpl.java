@@ -43,4 +43,13 @@ public class FolderServiceImpl implements IFolderService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<FolderDto> getAllFolders() {
+        return folderRepository.findAll()
+                .stream()
+                .map(FolderDto::folderToDto)
+                .collect(Collectors.toList());
+    }
+
+
 }

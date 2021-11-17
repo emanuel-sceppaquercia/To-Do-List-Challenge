@@ -10,5 +10,6 @@ public interface IFolderService {
     FolderDto CreateFolder(String name);
     Boolean deleteFolder(Long id);
     List<TaskDto> viewAllTasks(Long id);
+    List<FolderDto> getAllFolders();
 
 }

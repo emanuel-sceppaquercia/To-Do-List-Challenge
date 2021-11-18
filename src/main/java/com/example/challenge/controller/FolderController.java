@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Collections;
 
 @RequiredArgsConstructor
 @RestController
@@ -25,7 +26,7 @@ public class FolderController {
     public ResponseEntity<?> deleteFolder(@PathVariable(name = "id") Long id){
         folderService.deleteFolder(id);
 
-        return ResponseEntity.ok("Deleted");
+        return ResponseEntity.ok(Collections.singletonMap("Response", "Deleted"));
     }
 
     @GetMapping("/{id}")

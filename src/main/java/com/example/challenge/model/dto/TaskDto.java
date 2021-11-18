@@ -20,7 +20,7 @@ public class TaskDto {
         return TaskDto.builder()
                 .id(task.getId())
                 .name(task.getName())
-                .finished(false)
+                .finished(task.getFinished())
                 .build();
     }
 

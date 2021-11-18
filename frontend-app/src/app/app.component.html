@@ -1,0 +1,94 @@
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+<div class="container bootdey flex-grow-1 container-p-y">
+
+            <div class="media align-items-center py-3 mb-3">
+              <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="d-block ui-w-100 rounded-circle">
+              <div class="media-body ml-4">
+                <h4 class="font-weight-bold mb-0">John Doe <span class="text-muted font-weight-normal">@johndoe</span></h4>
+              </div>
+            </div>
+
+            <div class="card mb-4" id="main-container">
+              <div class="card-body">
+                <table class="table user-view-table m-3">
+                  <tbody *ngIf="!this.taskState" >
+                    <h4 class="font-weight-bold mb-4">{{currentState}} </h4>
+                    <tr *ngFor="let folder of folders">
+                      <td>- {{folder?.name}} </td>
+                      <td id="view">
+                        <button *ngIf="!this.taskState" (click)="viewItems(folder)" type="button" class="btn btn-primary btn-sm">
+                          View items
+                        </button>
+                      </td>
+                      <td id="remove">
+                        <button (click)="deleteFolder(folder.id)" type="button" class="btn btn-danger btn-sm">
+                          Remove
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <div>
+                        <form id="form" #addForm="ngForm" (ngSubmit)="createFolder(addForm)">
+                          <input class="form-control" type="text" ngModel name="name" placeholder="Folder name" required>
+                          <button class="btn btn-secondary btn-sm" [disabled]="addForm.invalid" type="submit">Add</button>
+                        </form>
+                      </div>
+                    </tr>
+                  </tbody>
+
+                  <tbody *ngIf="this.taskState" >
+                    <h4 class="font-weight-bold mb-4">{{currentState}} </h4>
+                    <a class="back_btn" (click)="goBack()">Go back</a>
+                    <tr *ngFor="let task of tasks">
+                      <td id="view">
+                        <input type="checkbox">
+                      </td>
+                      <td>{{task?.name}} </td>
+                      <td id="remove">
+                        <button (click)="setAuxTask(task)" id="edit-btn" type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                          Edit
+                        </button>
+                      </td>
+                      <td id="removeTask">
+                        <button (click)="deleteTask(task.id)" type="button" class="btn btn-danger btn-sm">
+                          Remove
+                        </button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <div>
+                        <form id="form" #addForm="ngForm" (ngSubmit)="createTask(addForm)">
+                          <div class="modal-body" *ngIf="tasks.length === 0">Empty List!</div>
+                          <input class="form-control" type="text" ngModel name="name" placeholder="Task name" required>
+                          <button class="btn btn-secondary btn-sm" [disabled]="addForm.invalid" type="submit">Add</button>
+                        </form>
+                      </div>
+                    </tr>
+                  </tbody>
+
+                </table>
+              </div>
+              <hr class="border-light m-0">
+            </div>
+
+          </div>
+
+          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <form #editForm="ngForm">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Editing Task: {{auxTask?.name}}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <input #input type="text" ngModel="{{auxTask?.name}}" name="name" placeholder="{{auxTask?.name}}">
+                  </div>
+                  <div class="modal-footer">
+                    <button (click)="editTask(editForm)" [disabled]="editForm.invalid" type="button" class="btn btn-primary btn-sm">Save</button>
+                    <button (click)="resetInput(editForm)" type="button" id="close-btn" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+                  </div>
+                </form> 
+              </div>
+            </div>
+          </div>

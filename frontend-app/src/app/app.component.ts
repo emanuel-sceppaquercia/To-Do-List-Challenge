@@ -1,10 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { ResourceLoader } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Folder } from './interface/folder';
 import { FolderDto } from './interface/FolderDto';
-import { RequestDto } from './interface/RequestDto';
 import { TaskDto } from './interface/taskDto';
 import { TaskRequestDto } from './interface/taskRequestDto';
 import { FolderService } from './service/folder.service';
@@ -49,10 +46,10 @@ export class AppComponent implements OnInit{
     this.folderService.deleteFolder(id).subscribe(
       (response: void) => {
         console.log(response)
+        this.getAllFolders();
       },
       (error: HttpErrorResponse) => {
-        //alert(error.message)
-        this.getAllFolders();
+        alert(error.message)
       }
     );
   }
@@ -107,10 +104,10 @@ export class AppComponent implements OnInit{
     this.taskService.deleteTask(id).subscribe(
       (response: void) => {
         console.log(response)
+        this.viewItems(this.currentFolder);
       },
       (error: HttpErrorResponse) => {
-        //alert(error.message)
-        this.viewItems(this.currentFolder);
+        alert(error.message)
       }
     );
   }
@@ -133,18 +130,26 @@ export class AppComponent implements OnInit{
     document.getElementById("close-btn")?.click();
   }
 
-  public setAuxTask(task: TaskDto): void{
-    this.auxTask = task;
+  public checkTask(id: number): void{
+    console.log()
+
+    this.taskService.checkTask(id).subscribe(
+      (response: void) => {
+        console.log(response)
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message)
+      }
+    )
   }
 
-  public resetInput(editForm: NgForm): void{
-    document.getElementById("input")?.setAttribute
+  public setAuxTask(task: TaskDto): void{
+    this.auxTask = task;
   }
 
   public goBack(): void{
     this.currentState = "Folders";
     this.taskState = false;
   }
-
  
 }

@@ -5,6 +5,17 @@ body{
     background: #f5f5f5;
 }
 
+#header{
+    display: flex;
+    justify-content:flex-start;
+    align-items:baseline;
+    margin-top: 1rem;
+}
+
+#header h4{
+    margin-right: 1rem;
+}
+
 .ui-w-100 {
     width: 100px !important;
     height: auto;
@@ -35,3 +46,22 @@ body{
 .text-xlarge {
     font-size: 170% !important;
 }
+
+#formAdd{
+    display: flex;
+}
+
+#formAdd:first-child{
+    width: 100%;
+    margin-right: 5vw;
+}
+
+#checkBox{
+    width: 10px;
+}
+
+a:hover{
+    cursor: pointer;
+    color:indigo;
+}
+

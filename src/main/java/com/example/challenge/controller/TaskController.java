@@ -33,7 +33,7 @@ public class TaskController {
         return ResponseEntity.ok("Deleted");
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/check/{id}")
     public ResponseEntity<?> checkTask(@PathVariable(name = "id") Long id){
         taskService.checkTask(id);
         return ResponseEntity.ok("Done");

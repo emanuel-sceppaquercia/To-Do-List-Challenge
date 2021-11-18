@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Collections;
 
 @RequiredArgsConstructor
 @RestController
@@ -30,13 +31,13 @@ public class TaskController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteTask(@PathVariable(name = "id") Long id){
         taskService.deleteTask(id);
-        return ResponseEntity.ok("Deleted");
+        return ResponseEntity.ok(Collections.singletonMap("Response", "Deleted"));
     }
 
     @PutMapping("/check/{id}")
     public ResponseEntity<?> checkTask(@PathVariable(name = "id") Long id){
         taskService.checkTask(id);
-        return ResponseEntity.ok("Done");
+        return ResponseEntity.ok(Collections.singletonMap("Response", "Done"));
     }
 
 }

@@ -16,7 +16,7 @@ import static com.example.challenge.model.dto.TaskDto.taskToDto;
 
 @Service
 @RequiredArgsConstructor
-public class TaskService implements ITaskService {
+public class TaskServiceImpl implements ITaskService {
 
     private final TaskRepository taskRepository;
     private final FolderRepository folderRepository;

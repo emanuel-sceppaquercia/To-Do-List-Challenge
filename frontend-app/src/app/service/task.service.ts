@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { RequestDto } from '../interface/RequestDto';
 import { TaskDto } from '../interface/taskDto';
 import { TaskRequestDto } from '../interface/taskRequestDto';
 
@@ -25,7 +24,7 @@ export class TaskService{
     }
 
     public checkTask(taskId: number): Observable<void>{
-        return this.http.post<void>(`${this.apiServerUrl}/task/check/${taskId}`, null);
+        return this.http.put<void>(`${this.apiServerUrl}/task/check/${taskId}`, null);
     }
 
 }
